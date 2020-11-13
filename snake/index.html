@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html style="background: #0f060fd6;" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Tetris</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+</head>
+<body>
+     <!-- Button trigger modal -->
+<!-- Button trigger modal -->
+
+<button type="button" class="btn btn-primary" style="display:none;" id="modal_id" data-toggle="modal" data-target="#exampleModalCenter">
+        Launch demo modal
+      </button>
+      
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModalCenter" data-backdrop="static" data-keyboard="false" href="#" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalCenterTitle">Snake</h5>
+            </div>
+            <div class="modal-body" id="modal-body">
+             <h5 id="presumir"></h6>
+             <h6 id="explicar">Consejos: </h6>
+             <h6 id="explicar4">* Si comés la manzana <span style="color: red">ROJA</span> sos vulnerable a cualquier cosa, ten cuidado</h6>
+             <h6 id="explicar2">* Si comés la manzana <span style="color: #f4e725">AMARILLA</span> podes atravesar tu cuerpo</h6>
+             <h6 id="explicar3">* Si comés la manzana <span style="color: blue">AZUL</span> podes atravesar tu cuerpo y los pinches</h6>
+            </div>
+            <div class="modal-footer">
+                <a href="../simon.html" class="btn btn-primary">Jugar al simón</a>
+                <button id="restart" class="btn btn-danger">Volver a jugar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="contenedor-puntos"> <h2 class="puntos" id="puntos">Puntos: 000000</h2>
+        <h2 class="puntos" id="victorioso" ></h2></div>
+    </div>
+
+
+    <style>
+        .contenedor-puntos{
+            background-color:black;
+            border-radius:5%;
+            position: absolute;
+            top: 5%;
+            right: 12%;
+        }
+        .puntos{
+            margin: 0;
+            color: yellow;
+            font-family: monospace;
+        }
+        canvas{
+            position: absolute;
+            left: calc((100% - 400px)/2);
+            top: calc((100% - 400px)/2);
+
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src ="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
+    <script src="sketch.js"></script>
+    
+    <!-- <script src="javascript.js"></script> -->
+</body>
+</html>

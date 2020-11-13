@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Hay que terminar el modo dificil no te olvides del if que dejaste en siguienteNivel -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <meta charset="utf-8">
+  <title>Simon</title>
+  <style>
+  body {
+    margin: 0;
+    background: #2c3e50;
+    display: flex;
+    align-items: center;
+    height: 100vh;
+  }
+  .contenedor-puntos{
+    background-color:black;
+    border-radius:5%;
+    position: absolute;
+    top: 5%;
+    right: 12%;
+  }
+  .puntos{
+    margin: 0;
+    color: yellow;
+    font-family: monospace;
+  }
+  .luz {
+    position: absolute;
+    display: inline-block;
+    width: 18.5%;
+    height: 18.5%;
+    top: 40.75%;
+    right: 40.75%;
+    border-radius: 50%;
+    background: black;
+}
+  .luz.light-bien{
+    background: green;
+  }
+  .luz.light-mal{
+    background:#af0d0d;
+  }
+
+  .rectangulo {
+    background: black;
+    position: absolute;
+    display: inline-block;
+    width: 647px;
+    height: 30px;
+    top: -297px;
+    right: 43px;
+}
+
+  .gameboard {
+    height: 100vh;
+    width: 100vh;
+    max-width: 60vh;
+    max-height:60vh;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto;
+    transform:  rotate(45deg);
+    transition: transform 0.5s;
+    position:relative;
+  }
+
+  .btn-start{
+    transform:  rotate(-45deg);
+  }
+  .dificil{
+    font-size: 2.5rem;
+    position: absolute;
+  }
+
+  .color {
+    width: 50%;
+    height: 50%;
+    display: inline-block;
+
+
+  }
+  .vertical{
+    transform:  rotate(90deg);
+  }
+
+  .left {
+    float: left;
+  }
+
+  .right {
+    float: left;
+  }
+
+  .amarillo {
+    background: #d6d312;
+  }
+
+  .amarillo.light {
+    background: #ebfc00;
+  }
+
+  .azul {
+    background: #2200b9;
+  }
+
+  .azul.light {
+    background: #2600ff;
+  }
+
+  .rojo {
+    background: #b60404;
+  }
+
+  .rojo.light {
+    background: #ff0404;
+  }
+
+  .verde {
+    background: #057305;
+  }
+  .verde.light {
+    background: #07ad07;
+  }
+
+  .btn-start {
+    color: #2c3e50;
+    width: 400px;
+    height: 100px;
+    background: #ecf0f1;
+    font-size: 2.5rem;
+    position: absolute;
+    top: calc(50% - 50px);
+    left: calc(50% - 200px);
+  }
+
+  .hide {
+    display: none;
+  }
+  @media screen 
+ and (max-device-width: 490px) 
+ and (min-device-width: 410px) {
+    .gameboard {
+    height: 100vh;
+    width: 100vh;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto;
+    max-height: 55vh;
+    max-width: 55vh;
+    transform:  rotate(45deg);
+    transition: transform 0.5s;
+    position:relative;
+  }
+  }
+  @media screen 
+ and (max-device-width: 410px) 
+ and (min-device-width: 330px) {
+    .gameboard {
+    height: 100vh;
+    width: 100vh;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto;
+    max-height: 50vh;
+    max-width: 50vh;
+    transform:  rotate(45deg);
+    transition: transform 0.5s;
+    position:relative;
+  }
+  }
+  @media screen 
+ and (max-device-width: 330px) 
+ and (min-device-width: 0px) {
+    .gameboard {
+    height: 100vh;
+    width: 100vh;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto;
+    max-height: 45vh;
+    max-width: 45vh;
+    transform:  rotate(45deg);
+    transition: transform 0.5s;
+    position:relative;
+  }
+  }
+  @media screen 
+ and (max-device-height: 658px) 
+ and (min-device-height: 518px) {
+    .btn-start {
+    color: #2c3e50;
+    width: 300px;
+    height: 100px;
+    background: #ecf0f1;
+    font-size: 2.0rem;
+    position: absolute;
+    top: calc(50% - 50px);
+    left: calc(50% - 150px);
+  }
+  }
+  @media screen 
+ and (max-device-height: 518px) 
+ and (min-device-height: 0px) {
+    .btn-start {
+    color: #2c3e50;
+    width: 250px;
+    height: 100px;
+    background: #ecf0f1;
+    font-size: 1.7rem;
+    position: absolute;
+    top: calc(50% - 50px);
+    left: calc(50% - 125px);
+
+  }
+
+  }
+  .Jugarotracosa{
+    position: absolute;
+    top: 20px;
+    left: 20px;
+  }
+</style>
+</head>
+<a href="snake/index.html" class="btn btn-primary btn-lg Jugarotracosa">Jugar al snake</a>
+<body id="body">
+  <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" id="btnEnviar" style="display: none;">
+    Launch demo modal
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel" style="position: absolute;">¡¡Felicidades Rompiste el record!!</h4>
+        </div>
+        <div class="modal-body">
+          Ingrese usuario: <input id="input_usuario" type="text">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" id="Cerrar" data-dismiss="modal">Cerrar</button>
+          <button type="button" id="Guardar" class="btn btn-primary">Guardar Cambios</button>
+        </div>
+      </div>
+    </div>
+  </div>
+   <div class="contenedor-puntos"> <h2 class="puntos" id="puntos">Puntos: 000000</h2>
+    <h2 class="puntos" id="victorioso" ></h2></div>
+  </div>
+ 
+  <div class="gameboard" id = "gameboard">
+    <div id="rectangulo1" class="rectangulo horizontal"></div>
+    <div id="rectangulo2" class="rectangulo vertical"></div>
+    <div id="luz" class="luz"></div>
+    <div id="amarillo" class="color amarillo left" data-color="amarillo"></div>
+    <div id="azul" class="color azul right" data-color="azul"></div>
+    <div id="rojo" class="color rojo left" data-color="rojo"></div>
+    <div id="verde" class="color verde right" data-color="verde"></div> 
+    <button id="btnEmpezar" class="btn-start" onclick="">Empezar a jugar!</button>
+  </div>
+  <button id="Dificil" class="btn-btn btn-danger dificil">Dificil</button>
+  
+
+  <script> require('index.js') 
+        require('jquery')
+        </script>
+  <script>
+    // Variables
+    const btnClose = $('.close')
+    const btnCerrar = $('#Cerrar')
+    const btnEnviar = $('#btnEnviar')
+    const body = document.getElementById('body');
+    const gameboard = $('#gameboard');
+    const dificil = $('#Dificil');
+    const rectangulo1 = $('#rectangulo1');
+    const rectangulo2 = $('#rectangulo2');
+    const luz = $('#luz');
+    const amarillo = $('#amarillo');
+    const azul = $('#azul');
+    const rojo = $('#rojo');
+    const verde = $('#verde');
+    const btnGuardar = $('#Guardar');
+    const btnEmpezar = $('#btnEmpezar');
+    const NIVEL_MAXIMO = 100;
+    var ceros;
+    var puntos_string;
+    var puntos_reales = 0;
+    var puntos = 15;
+    var movimiento1;
+    var movimiento2;
+    var deg = 100;
+    var movimientos;
+    var segundos = 200;
+    var nivel = 1;
+    var recorrido = 0;
+    var GradosAleatorios = 0;
+    var Estaendificil;
+    var siguienteNivelTime = 500;
+    var izq_derecha;
+    var user = "";
+    var user_victorioso = "";
+    var puntos_reales;
+    var string;
+    var Secuencia = new Array(NIVEL_MAXIMO + 1).fill(0).map(n => Math.floor(Math.random()*4));
+    if(localStorage.key(0) === null){
+    localStorage.setItem("HighScore IA", 0)
+    }
+    ObtenerUser()
+    document.getElementById('victorioso').innerHTML = user_victorioso + " con " + localStorage.getItem("HighScore " + user_victorioso) + " puntos" ;
+    //responsive
+    function AjustarPantalla(){
+      // pelota y cruz de palos
+      var w = document.getElementById('gameboard').offsetWidth;
+      var pelota = (51 * 100) / w;
+      var palo_height = (15 * 100) / w;
+      var palo_width = (647 * 100) / w; 
+      var top = 50 - (pelota / 2)
+      var top2 = 50 - (palo_height /2)
+      luz.css({"width":pelota +"%", "height": pelota + "%", "top":top + "%", "right": top + "%"});
+      rectangulo1.css({"width": "100" + "%", "height": palo_height + "%", "top": top2 + "%", "right":  "0%"})
+      rectangulo2.css({"width": "100" + "%", "height": palo_height + "%", "top": top2 + "%", "right":  "0%"})
+      
+      // boton dificil
+      
+      var w2 = document.getElementById('Dificil').offsetWidth;
+      var body_width = body.offsetWidth;
+      var dificil_width = ((w2 + 20) * 100) / body_width;
+      var right = 50 - (dificil_width / 2)
+      dificil.css({"width":(w2 + 20) + "px", "top": "5%", "right": right + "%"})
+      
+
+    }
+    AjustarPantalla()
+
+    function ObtenerUser(){
+      string = localStorage.key(0)
+      user_victorioso = ""
+      for(var i = 10; i<string.length;i++){
+	      user_victorioso += string[i]	
+      }
+      
+    }
+
+
+    
+    // Juego En Dificil
+    function ComenzarJuegoDificil(){
+      Estaendificil = 2;
+      comenzarJuego()
+    }
+    function ObtenerGrados(){
+      
+    GradosAleatorios = (Math.floor(Math.random() * 10000));
+      if (GradosAleatorios < 5000){
+        GradosAleatorios += 6000;
+      }
+      if (Math.random() > 0.5){
+        GradosAleatorios = GradosAleatorios * -1;
+      }
+    }
+    
+    
+    // Juego En Normal
+    function comenzarJuego(){
+      nivel = 1;
+      IluminarSecuencia();
+      if (Estaendificil >= 2){
+      setTimeout(AccionUsuario, (750 * nivel) + 500);
+      } else if(Estaendificil == 0) {
+        setTimeout(AccionUsuario, (450 * nivel));
+      } else {
+        setTimeout(AccionUsuario, (450 * nivel) + 500);
+      }
+    }
+
+    function AccionUsuario(){
+      amarillo.css({"cursor":"pointer"})
+      azul.css({"cursor":"pointer"})
+      rojo.css({"cursor":"pointer"})
+      verde.css({"cursor":"pointer"})
+
+      amarillo.click(function (){
+        elegirColor(0);
+      })
+      azul.click(function(){
+        elegirColor(1);
+      })
+      rojo.click(function (){
+        elegirColor(2);
+      })
+      verde.click(function(){
+        elegirColor(3);
+      })
+
+    }
+    function RemoverClick(){
+      amarillo.css({"cursor":"default"})
+      azul.css({"cursor":"default"})
+      rojo.css({"cursor":"default"})
+      verde.css({"cursor":"default"})
+      amarillo.unbind("click");
+      azul.unbind("click");
+      rojo.unbind("click");
+      verde.unbind("click");
+    }
+    function AnimacionPuntaje(){
+      if(puntos_reales != (puntos - 15)){
+        if (puntos_reales + 1 > 0){
+        puntos_string = (puntos_reales + 1).toString().length;
+        ceros = 6 - puntos_string;
+        document.getElementById('puntos').innerHTML = "Puntos: " + "0".repeat(ceros) + (puntos_reales + 1);
+        
+
+      if (puntos_reales<puntos){
+        puntos_reales++;
+      }
+      } 
+    }
+    }
+  
+    function elegirColor(num){
+      EncenderColor(num);
+      var ColorElegido = num;
+      if (ColorElegido === Secuencia[recorrido]){
+        recorrido += 1;
+        puntos += 15;
+        setInterval(AnimacionPuntaje, 100)
+        clearInterval
+        if (recorrido === nivel){
+          RemoverClick();
+          setTimeout(siguienteNivel, siguienteNivelTime);
+        }
+
+      } else{
+        // Perdiste.
+        if(puntos_reales > parseInt(localStorage.getItem("HighScore " + user_victorioso))){
+          luz.addClass('light-bien')
+          btnEnviar.click()
+        //Ganaste2.0
+        
+
+      } else {
+        document.getElementById('puntos').innerHTML = "Puntos: 000000";
+        luz.addClass('light-mal')
+        setTimeout(function(){
+          btnEmpezar.html('Volver A Jugar');
+          btnEmpezar.removeClass('hide');
+          dificil.removeClass('hide');
+          btnEmpezar.removeClass('dificil')
+          gameboard.css({"transform":"rotate(45deg)"});
+        }, 750);
+        GradosAleatorios = 0;
+        deg = 100;
+        Estaendificil = 0;
+        
+        RemoverClick()
+        nivel = 1;
+        recorrido = 0;
+        Secuencia = new Array(NIVEL_MAXIMO + 1).fill(0).map(n => Math.floor(Math.random()*4));
+      }
+      }
+    }
+    
+    function siguienteNivel(){
+      if (Estaendificil == 3){
+        gameboard.css({"top":"0%"})
+        gameboard.css({"left":"0%"})
+        gameboard.css({"right":"0%"})
+        gameboard.css({"bottom":"0%"})
+      }
+
+      nivel += 1;
+      if (nivel === (NIVEL_MAXIMO) ){
+                // Ganaste.
+        RemoverClick()
+
+        luz.addClass('light-bien')
+        setTimeout(function(){
+          btnEmpezar.html('Volver A Jugar');
+          btnEmpezar.removeClass('hide')
+          dificil.removeClass('hide');
+          btnEmpezar.removeClass('dificil')
+          gameboard.css({"transform":"rotate(45deg)"});
+          
+        }, 750);
+        GradosAleatorios = 0;
+        deg = 100;
+        Estaendificil = 0;
+        nivel = 1;
+        recorrido = 0;
+        segundos = 50;
+        Secuencia = new Array(NIVEL_MAXIMO + 1).fill(0).map(n => Math.floor(Math.random()*4));
+      } else {
+        recorrido = 0;
+        IluminarSecuencia();
+        if (Estaendificil >= 2){
+      setTimeout(AccionUsuario, (750 * nivel) + 500);
+      } if(Estaendificil == 0) {
+        setTimeout(AccionUsuario, (450 * nivel));
+      } if(Estaendificil == 1){
+        setTimeout(AccionUsuario, (450 * nivel) + 500);
+      }
+      }
+
+    }
+
+
+
+
+
+    function ObtenerColor(num){
+      switch (num){
+        case 0: return amarillo
+        break;
+        case 1: return azul
+        break;
+        case 2: return rojo
+        break;
+        case 3: return verde
+        break;
+      }
+    }
+    function ObtenerDist(num){
+      switch (num){
+        case 0: return "top"
+        break;
+        case 1: return "left"
+        break;
+        case 2: return "right"
+        break;
+        case 3: return "bottom"
+        break;
+      }
+
+    }
+    function EncenderColor(num){
+      var color = ObtenerColor(num);
+      color.addClass('light');
+      window.setTimeout(function(){
+        color.removeClass('light')
+      }, segundos);
+    }
+    function ObtenerMovimientos(a){
+      switch (a){
+        case 0:  gameboard.animate({top:"15%"},{
+          duartion: (1 * nivel) * 1000
+        });
+        break;
+        case 1:  gameboard.animate({left:"15%"},{
+          duartion: (1 * nivel) * 1000
+        });
+        break;
+        case 2:  gameboard.animate({right:"15%"},{
+          duartion: (1 * nivel) * 1000
+        });
+        break;
+        case 3:  gameboard.animate({bottom:"15%"},{
+          duartion: (1 * nivel) * 1000
+        });
+        break;
+        case 4:  gameboard.animate({top:"15%", right:"15%"},{
+          duartion: (1 * nivel) * 1000
+        });
+        break;
+        case 5:  gameboard.animate({left:"15%", top:"15%"},{
+          duartion: (1 * nivel) * 1000
+        });
+        break;
+        case 6:  gameboard.animate({right:"15%", bottom:"15%"},{
+          duartion: (1 * nivel) * 1000
+        });
+        break;
+        case 7:  gameboard.animate({bottom:"15%", left:"15%"},{
+          duartion: (1 * nivel) * 1000
+        });
+        break;
+      }
+      
+    }
+
+
+    function IluminarSecuencia(){
+      // Super Ultra dificil
+      if (Estaendificil == 3){
+        deg += 50 
+        gameboard.css({  "transform":"rotate("+ (GradosAleatorios + deg) + "deg)","transition": "transform " + (1 * nivel) + "s"})
+        Movimientos = Math.floor(Math.random() * 8)
+        ObtenerMovimientos(Movimientos)
+
+      for(var i = 0; i < nivel; i++){
+        let col = Secuencia[i];
+         
+          
+        setTimeout(() => {EncenderColor(col)}, 500 * i);
+      }
+      ObtenerGrados();
+
+        setTimeout(function(){
+          gameboard.css({"transform":"rotate(" + GradosAleatorios + "deg)", "transition": "transform 0.5s"});
+        }, 1000 * nivel )
+
+      }
+      // Super dificil
+      if (Estaendificil == 2){
+
+        deg += 50
+        izq_derecha = Math.random(); 
+        if (izq_derecha < 0.5){
+        gameboard.css({  "transform":"rotate("+ (GradosAleatorios - deg) + "deg)","transition": "transform " + (0.70 * nivel) + "s"})
+        izq_derecha = Math.random();
+        } else {
+          gameboard.css({  "transform":"rotate("+ (GradosAleatorios + deg) + "deg)","transition": "transform " + (0.70 * nivel) + "s"})
+          izq_derecha = Math.random();
+        }
+
+      for(var i = 0; i < nivel; i++){
+        let col = Secuencia[i];
+         
+          
+        setTimeout(() => {EncenderColor(col)}, 500 * i);
+      }
+      ObtenerGrados();
+
+        setTimeout(function(){
+          gameboard.css({"transform":"rotate(" + GradosAleatorios + "deg)", "transition": "transform 0.5s"});
+        }, 750 * nivel )
+      } else {
+
+
+        // Normal
+      for(var i = 0; i < nivel; i++){
+        let col = Secuencia[i];
+        setTimeout(() => {EncenderColor(col)}, 450 * i);
+      }
+      // Dificil
+      if (Estaendificil === 1){
+        ObtenerGrados();
+
+        setTimeout(function(){
+          gameboard.css({"transform":"rotate(" + GradosAleatorios + "deg)", "transition": "transform 0.5s"});
+        }, 270 * nivel )
+
+      }
+ 
+      }
+    }
+    function getRandomInt(min, max) {
+      return Math.floor(Math.random() * (max - min)) + min;
+    }
+    dificil.click(function(){
+      dificil.addClass('hide');
+      btnEmpezar.addClass('dificil')
+    })
+
+    btnGuardar.click(function(){
+      if (input_usuario.value != ""){
+        localStorage.removeItem(localStorage.key(0))
+        user_victorioso = input_usuario.value
+        localStorage.setItem("HighScore " + user_victorioso, puntos_reales)
+        document.getElementById('victorioso').innerHTML = user_victorioso + " con " + localStorage.getItem("HighScore " + user_victorioso) + " puntos";
+        btnCerrar.click()
+      } else {
+        
+      }
+    })
+    btnClose.click(function(){
+      btnCerrar.click()
+    })
+    btnEmpezar.click(function(){
+      if (dificil.hasClass('hide')){
+
+      } else {
+        dificil.addClass('hide')
+      }
+      if (btnEmpezar.hasClass( "dificil" )){
+        luz.removeClass('light-bien');
+        luz.removeClass('light-mal');
+        btnEmpezar.addClass('hide');
+        document.getElementById('puntos').innerHTML = "Puntos: 000000"
+        puntos = 15;
+        puntos_reales = 0;
+        setTimeout(ComenzarJuegoDificil, 750);
+      } else {
+      luz.removeClass('light-bien')
+      luz.removeClass('light-mal')
+      btnEmpezar.addClass('hide');
+      puntos = 15;
+      puntos_reales = 0;
+      Estaendificil = 0;
+      setTimeout(comenzarJuego, 750);
+      }
+    })
+    btnCerrar.click(function(){
+      document.getElementById('puntos').innerHTML = "Puntos: 000000";
+        setTimeout(function(){
+          btnEmpezar.html('Volver A Jugar');
+          btnEmpezar.removeClass('hide');
+          dificil.removeClass('hide');
+          btnEmpezar.removeClass('dificil')
+          gameboard.css({"transform":"rotate(45deg)"});
+        }, 750);
+        GradosAleatorios = 0;
+        deg = 100;
+        Estaendificil = 0;
+        
+        RemoverClick()
+        nivel = 1;
+        recorrido = 0;
+        Secuencia = new Array(NIVEL_MAXIMO + 1).fill(0).map(n => Math.floor(Math.random()*4));
+    })
+
+
+
+  </script>
+</body>
+<!-- ctrl+D -->
+<!-- lo que hace es seleccionar los elementos de la misma fila blabla -->
+<!-- Idea: poner modos lento, normal y rapido. -->
+</html>
