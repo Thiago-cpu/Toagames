@@ -3,6 +3,7 @@
 // Sí sigue andando con lag en la escuela, acordate que podes optimizar el juego haciendo que no dibuje el fondo si ya estaba dibujado anteriormente
 const largo = 20;
 const alto = 20;
+let aux6 = false;
 const tamañoCuadrado = 20;
 var Estaenpinche;
 var tail = [];
@@ -43,10 +44,10 @@ function preload() {
     img = loadImage('imagenes/cuadrado_verde.png');
     manzana = loadImage('imagenes/cuadrado_rojo.png')
     azul = loadImage('imagenes/cuadrado_azul.png')
-    // naranja = loadImage('imagenes/cuadrado_naranja.png')
-    // violeta = loadImage('imagenes/cuadrado_violeta.png')
     amarillo = loadImage('imagenes/cuadrado_amarillo.png')
-    // celeste = loadImage('imagenes/cuadrado_celeste.png')
+    violeta = loadImage('imagenes/cuadrado_violeta.png')
+    celeste = loadImage('imagenes/cuadrado_celeste.png')
+    naranja = loadImage('imagenes/cuadrado_naranja.png')
     pinches_gris = loadImage('imagenes/pinchos.png')
     pinches_47 = loadImage('imagenes/pinchos_47.png')
     pared_vertical = loadImage('imagenes/pared_vertical.png')
@@ -61,41 +62,20 @@ function preload() {
 
 function setup(){
     createCanvas(tamañoCuadrado*largo, tamañoCuadrado*alto);
-    img.resize(tamañoCuadrado,tamañoCuadrado);
-    azul.resize(tamañoCuadrado, tamañoCuadrado)
-    // naranja.resize(tamañoCuadrado, tamañoCuadrado)
-    // violeta.resize(tamañoCuadrado, tamañoCuadrado)
-    amarillo.resize(tamañoCuadrado, tamañoCuadrado)
-    // celeste.resize(tamañoCuadrado, tamañoCuadrado)
     manzana.resize(tamañoCuadrado, tamañoCuadrado)
-    pinches_gris.resize(tamañoCuadrado, tamañoCuadrado)
-    pinches_47.resize(tamañoCuadrado, tamañoCuadrado)
-    pared_vertical.resize(tamañoCuadrado, tamañoCuadrado)
-    pared_horizontal.resize(tamañoCuadrado, tamañoCuadrado)
     posmanzanax = floor(random(1, largo-2)) * tamañoCuadrado
     posmanzanay = floor(random(1, alto-2)) * tamañoCuadrado
     image(manzana_color, posmanzanax, posmanzanay)
-    pinches()
     pared()
-    for (let i = 0; i < cant_pinches; i++){
-        if ((pinches_gris_x[i] / tamañoCuadrado +pinches_gris_y[i] / tamañoCuadrado) % 2 == 0){
-            image(pinches_47, pinches_gris_x[i], pinches_gris_y[i] )
-        } else {
-            image(pinches_gris, pinches_gris_x[i], pinches_gris_y[i] )
-        }
-        
-    }
-
 }
 function draw() {
 
     frameRate(60)
-
     x=tail[0].x
     y=tail[0].y
     
-    aux1 = tail[0].x;
-    aux2 = tail[0].y;
+    aux1 = x;
+    aux2 =  y;
     actualizar()
     if (aux1==tail[0].x && aux2==tail[0].y){
         fin()
@@ -141,25 +121,19 @@ function fin(){
 
 function actualizar(){
     //pinches
-
-
-
     if (total === tail.length){
         for (let i = 1; i < tail.length; i++){
             tail[i] = tail[i+1]
         }
     } 
-    
     tail[total-1] = createVector( tail[0].x, tail[0].y);
     
     
-
-
-    
     tail[0].x += velocidad_x;
     tail[0].y += velocidad_y;
-    tail[0].x = constrain(tail[0].x, 0 + tamañoCuadrado, largo*tamañoCuadrado-2*tamañoCuadrado)
-    tail[0].y = constrain(tail[0].y, 0 + tamañoCuadrado, alto*tamañoCuadrado-2*tamañoCuadrado)
+    //Si esta dentro de los límites dar esa posición, sino matener la posición de la pared
+    tail[0].x = constrain(tail[0].x, tamañoCuadrado, largo*tamañoCuadrado-2*tamañoCuadrado)
+    tail[0].y = constrain(tail[0].y, tamañoCuadrado, alto*tamañoCuadrado-2*tamañoCuadrado)
     come()
     Colision_Cuerpo()
     Colision_Pinches()
@@ -259,14 +233,8 @@ function come(){
             } else {
                 image(pinches_gris, pinches_gris_x[i], pinches_gris_y[i] )
             }
-
         }
-
         image(manzana_color, posmanzanax, posmanzanay)
-        
-
-        
-
     }
 }
 function PasarDeNivel(){
@@ -379,6 +347,7 @@ function mostrar(){
 
 
     crearGrilla();
+    //cuando pasa por encima del pinche
     if (SinColision == 2){
         for (let i = 0; i < cant_pinches; i++){
             if ((pinches_gris_x[i] / tamañoCuadrado +pinches_gris_y[i] / tamañoCuadrado) % 2 == 0){
@@ -386,17 +355,16 @@ function mostrar(){
             } else {
                 image(pinches_gris, pinches_gris_x[i], pinches_gris_y[i] )
             }
-            
         }
     }
     
     for (let i = tail.length-1; i > -1; i--){
-        if (i === 0 || 1 === i ) {
-           image(img, tail[i].x, tail[i].y)
-       } else {
-        image(img, tail[i].x, tail[i].y)
-    } 
-}
+        if(SinColision === 2){
+            randomColor(tail[i].x,tail[i].y)
+        } else {
+        image(img, tail[i].x , tail[i].y)
+        }
+    }   
 
 
 
@@ -446,8 +414,14 @@ function keyPressed(){
 
         movimientos.push('r');
     }else if (keyCode === 32){
+        if (aux6){
+            SinColision = 0
+            aux6 = false
+        } else {
+        aux6 = true
+        SinColision = 2
 
-        //tecla espacio
+        }
 
     }
 }
@@ -490,21 +464,15 @@ function mover(x,y){
 function pared(){
     for(let j = 0; j<alto;j++){
         image (pared_vertical, largo*tamañoCuadrado - tamañoCuadrado, j*tamañoCuadrado)
-    }
-    for(let j = 0; j<alto;j++){
         image (pared_vertical,0, j*tamañoCuadrado)
-
     }
     for(let j = 0; j<largo;j++){
         image (pared_horizontal,j*tamañoCuadrado, 0)
-    }
-    for(let j = 0; j<largo;j++){
         image (pared_horizontal,j*tamañoCuadrado, alto*tamañoCuadrado - tamañoCuadrado)
     }
 }
 function crearGrilla(){
     for(let i = 1;i<largo-1;i ++){
-
         for(let j = 1; j<alto-1;j++){
             if (posmanzanax / tamañoCuadrado !== i || posmanzanay / tamañoCuadrado !== j ){
                 for (let h = 0; h < cant_pinches; h++){
@@ -518,8 +486,6 @@ function crearGrilla(){
                     Estaenpinche = false;
                 }
             }
-
-            
         }
     }
     function crearFondo(posx,posy){
