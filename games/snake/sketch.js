@@ -41,7 +41,7 @@ function reiniciar(){
 }
 function preload() {
     img = loadImage('imagenes/cuadrado_verde.png');
-    manzana = loadImage('cuadrado_rojo.png')
+    manzana = loadImage('imagenes/cuadrado_rojo.png')
     azul = loadImage('imagenes/cuadrado_azul.png')
     // naranja = loadImage('imagenes/cuadrado_naranja.png')
     // violeta = loadImage('imagenes/cuadrado_violeta.png')
