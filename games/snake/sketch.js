@@ -64,17 +64,17 @@ function reiniciar(){
     // location.reload();
 }
 function preload() {
-    img = loadImage('imagenes/cuadrado_verde.png');
-    manzana = loadImage('imagenes/cuadrado_rojo.png')
-    azul = loadImage('imagenes/cuadrado_azul.png')
-    amarillo = loadImage('imagenes/cuadrado_amarillo.png')
-    violeta = loadImage('imagenes/cuadrado_violeta.png')
-    celeste = loadImage('imagenes/cuadrado_celeste.png')
-    naranja = loadImage('imagenes/cuadrado_naranja.png')
-    pinches_gris = loadImage('imagenes/pinchos.png')
-    pinches_47 = loadImage('imagenes/pinchos_47.png')
-    pared_vertical = loadImage('imagenes/pared_vertical.png')
-    pared_horizontal = loadImage('imagenes/pared_horizontal.png')
+    img = loadImage('https://i.ibb.co/6YY85Vw/cuadrado-verde.png');
+    manzana = loadImage('https://i.ibb.co/YTxz5DY/Cuadrado-rojo.png')
+    azul = loadImage('https://i.ibb.co/fpXdpsC/cuadrado-azul.png')
+    amarillo = loadImage('https://i.ibb.co/QPhXs3f/cuadrado-amarillo.png')
+    violeta = loadImage('https://i.ibb.co/7pZSfGz/cuadrado-violeta.png')
+    celeste = loadImage('https://i.ibb.co/z8K3xwN/cuadrado-celeste.png')
+    naranja = loadImage('https://i.ibb.co/BqsWdXd/cuadrado-naranja.png')
+    pinches_gris = loadImage('https://i.ibb.co/9ZFp313/pinchos.png')
+    pinches_47 = loadImage('https://i.ibb.co/0Czqp7Y/pinchos-47.png')
+    pared_vertical = loadImage('https://i.ibb.co/ryFwtmc/pared-vertical.png')
+    pared_horizontal = loadImage('https://i.ibb.co/MSTNSL5/pared-horizontal.png')
     
     tail[0] = createVector( 60, 120);
     aux1 = tail[0].x
@@ -85,7 +85,6 @@ function preload() {
 
 function setup(){
     createCanvas(tamañoCuadrado*largo, tamañoCuadrado*alto);
-    manzana.resize(tamañoCuadrado, tamañoCuadrado)
     posmanzanax = floor(random(1, largo-2)) * tamañoCuadrado
     posmanzanay = floor(random(1, alto-2)) * tamañoCuadrado
     image(manzana_color, posmanzanax, posmanzanay)
