@@ -3,18 +3,17 @@
 // Sí sigue andando con lag en la escuela, acordate que podes optimizar el juego haciendo que no dibuje el fondo si ya estaba dibujado anteriormente
 const largo = 20;
 const alto = 20;
-let aux6 = false;
 const tamañoCuadrado = 20;
-var Estaenpinche;
+var Estaenpinche = false;
 var tail = [];
 var cant_color, var_color;
-var datos = "THIAGO@gmail.com";
+var datos = "thifran789456323@gmail.com o tomimoreno03@gmail.com";
 var posmanzanax;
 var posmanzanay;
 var aux1;
-var ceros;
-let color_rdm;
-var puntos;
+var ceros = 0;
+let color_rdm = 0;
+var puntos = 0;
 var aux2 = 1;
 var total = 0;
 var velocidad = 4;
@@ -34,11 +33,35 @@ var pinches_gris_y = [];
 var cant_pinches = 0;
 var pinches_47;
 // llave
-var SinColision;
+var SinColision = 0;
 let restart = document.getElementById('restart')
 restart.addEventListener('click', reiniciar)
 function reiniciar(){
-    location.reload();
+    document.getElementById('modal_id').click()
+    tail = [];
+    pinches_gris_x = [];
+    pinches_gris_y = [];
+    cant_pinches = 0;
+    movidas = 0;
+    ceros = 0;
+    color_rdm = 0;
+    puntos = 0;
+    aux2 = 1;
+    total = 0;
+    velocidad = 4;
+    SinColision = 0;
+    velocidad_x = 4;
+    velocidad_y = 0;
+    movimientos = [];
+    Estaenpinche = false;
+    tail[0] = createVector( 60, 120);
+    aux1 = tail[0].x
+    manzana_color = manzana;
+    puntos = document.getElementById('puntos');
+    ceros = 6 - total.toString().length;
+    puntos.innerText = "Puntos: " + "0".repeat(ceros) + total.toString()
+    loop()
+    // location.reload();
 }
 function preload() {
     img = loadImage('imagenes/cuadrado_verde.png');
@@ -79,7 +102,6 @@ function draw() {
     actualizar()
     if (aux1==tail[0].x && aux2==tail[0].y){
         fin()
-        noloop()
     }
     secuencia()
     mostrar()
@@ -87,7 +109,7 @@ function draw() {
 
 }
 function fin(){
-    var respuesta;
+    noLoop()
     document.getElementById('modal_id').click()
     if (total < 100){
         document.getElementById('presumir').innerText = "Has ganado un total de " + total.toString() + " puntos, te falta práctica.";
@@ -177,7 +199,6 @@ function Colision_Cuerpo(){
         for(let i = 1; i<tail.length-1;i++){
             if (16 === dist(tail[0].x, tail[0].y, tail[i].x, tail[i].y) && 12 === dist(tail[0].x + (velocidad_x), tail[0].y + (velocidad_y), tail[i].x, tail[i].y) ){
                 fin()
-                noloop()
             }
         }
     }
@@ -187,7 +208,6 @@ function Colision_Pinches(){
         for(let i = 0; i<cant_pinches;i++){
             if (0 == dist(tail[0].x, tail[0].y, pinches_gris_x[i], pinches_gris_y[i])){
                 fin()
-                noloop()
             }
         }
     }
