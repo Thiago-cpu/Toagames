@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tateti</title>
+</head>
+<body>
+    <h2>crear sala</h2>
+    <input type="text" name="" id="inp-crear">
+    <button id="crear-button">Crear</button>
+    <h2>entrar a sala</h2>
+    <input type="text" name="" id="inp-entrar">
+    <button id="entrar-button">Entrar</button>
+    <input type="text" name="" id="inp-msg">
+    <button id="msg-button">Mensaje</button>
+    
+  <ul id="events"></ul>
+  <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
+  <script>
+      const entrar = document.getElementById('inp-entrar')
+      const msg = document.getElementById('inp-msg')
+      const crear = document.getElementById('inp-crear')
+      const msgButton = document.getElementById('msg-button')
+      const entrarButton = document.getElementById('entrar-button')
+      const crearButton = document.getElementById('crear-button')
+      const socket = io();
+      
+      msgButton.onclick = (e=>{
+        socket.emit('msg', msg.value)
+      })
+      crearButton.onclick = (e=>{
+        socket.emit('crear', crear.value)
+      })
+      entrarButton.onclick = (e=>{
+        socket.emit('entrar', entrar.value)
+      })
+  const $events = document.getElementById('events');
+
+  const newItem = (content) => {
+    const item = document.createElement('li');
+    item.innerText = content;
+    return item;
+  };
+  
+  socket.on('connect', () => {
+    $events.appendChild(newItem('connect'));
+    socket.on('entrar', (entrar)=>{
+        $events.appendChild(newItem(entrar))
+    })
+    socket.on('crear', (crear)=>{
+        $events.appendChild(newItem(crear))    
+    })
+    socket.on('msg', (message) =>{
+        $events.appendChild(newItem(message))
+    })
+  });
+  </script>
+</body>
+</html>
