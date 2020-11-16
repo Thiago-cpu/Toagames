@@ -414,13 +414,10 @@ function keyPressed(){
 
         movimientos.push('r');
     }else if (keyCode === 32){
-        if (aux6){
+        if (SinColision == 2){
             SinColision = 0
-            aux6 = false
-        } else {
-        aux6 = true
-        SinColision = 2
-
+        } else{
+            SinColision = 2
         }
 
     }
