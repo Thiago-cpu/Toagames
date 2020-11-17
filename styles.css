@@ -13,21 +13,6 @@ body {
     justify-content: center;
     align-items: center;
 }
-
-.header{
-    position:sticky;
-    top:0;
-    width:100%;
-    background:#474747;
-    height: 56px;
-    display:flex;
-    align-items: center;
-    padding: 0 5px;
-}
-.header__title{
-    color:white;
-    cursor:pointer; 
-}
 .main{
     width:100%;
 }
