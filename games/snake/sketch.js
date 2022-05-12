@@ -16,8 +16,8 @@ let color_rdm = 0;
 var puntos = 0;
 var aux2 = 1;
 var total = 0;
-var velocidad = 4;
-var velocidad_x = 4;
+var velocidad = 2;
+var velocidad_x = 2;
 var velocidad_y = 0;
 var img;
 var movimientos = [];
@@ -48,9 +48,9 @@ function reiniciar(){
     puntos = 0;
     aux2 = 1;
     total = 0;
-    velocidad = 4;
+    velocidad = 2;
     SinColision = 0;
-    velocidad_x = 4;
+    velocidad_x = 2;
     velocidad_y = 0;
     movimientos = [];
     Estaenpinche = false;
@@ -92,7 +92,7 @@ function setup(){
 }
 function draw() {
 
-    frameRate(60)
+    frameRate(144)
     x=tail[0].x
     y=tail[0].y
     
