@@ -64,17 +64,17 @@ function reiniciar(){
     // location.reload();
 }
 function preload() {
-    img = loadImage('https://i.ibb.co/6YY85Vw/cuadrado-verde.png');
-    manzana = loadImage('https://i.ibb.co/YTxz5DY/Cuadrado-rojo.png')
-    azul = loadImage('https://i.ibb.co/fpXdpsC/cuadrado-azul.png')
-    amarillo = loadImage('https://i.ibb.co/QPhXs3f/cuadrado-amarillo.png')
-    violeta = loadImage('https://i.ibb.co/7pZSfGz/cuadrado-violeta.png')
-    celeste = loadImage('https://i.ibb.co/z8K3xwN/cuadrado-celeste.png')
-    naranja = loadImage('https://i.ibb.co/BqsWdXd/cuadrado-naranja.png')
-    pinches_gris = loadImage('https://i.ibb.co/9ZFp313/pinchos.png')
-    pinches_47 = loadImage('https://i.ibb.co/0Czqp7Y/pinchos-47.png')
-    pared_vertical = loadImage('https://i.ibb.co/ryFwtmc/pared-vertical.png')
-    pared_horizontal = loadImage('https://i.ibb.co/MSTNSL5/pared-horizontal.png')
+    img = loadImage('./images/cuadrado-verde.png');
+    manzana = loadImage('./images/Cuadrado-rojo.png')
+    azul = loadImage('./images/cuadrado-azul.png')
+    amarillo = loadImage('./images/cuadrado-amarillo.png')
+    violeta = loadImage('./images/cuadrado-violeta.png')
+    celeste = loadImage('./images/cuadrado-celeste.png')
+    naranja = loadImage('./images/cuadrado-naranja.png')
+    pinches_gris = loadImage('./images/pinchos.png')
+    pinches_47 = loadImage('./images/pinchos-47.png')
+    pared_vertical = loadImage('./images/pared-vertical.png')
+    pared_horizontal = loadImage('./images/pared-horizontal.png')
     
     tail[0] = createVector( 60, 120);
     aux1 = tail[0].x
